@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ImagePicker</string>
+    <string name="search_for_image">Search for image !</string>
+</resources>
