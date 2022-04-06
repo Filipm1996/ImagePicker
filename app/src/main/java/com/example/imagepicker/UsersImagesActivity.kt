@@ -3,20 +3,15 @@ package com.example.imagepicker
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.imagepicker.UI.UsersImagesAdapter
@@ -27,8 +22,6 @@ import com.example.imagepicker.databinding.UsersImageActivityBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.IOException
-import java.net.URL
 import java.util.*
 
 
@@ -86,9 +79,7 @@ class UsersImagesActivity : AppCompatActivity() {
         builder.setCancelable(true)
         builder.setPositiveButton("yes") { _, _ ->
             Toast.makeText(actContext, "Deleted photo", Toast.LENGTH_LONG).show()
-            CoroutineScope(Dispatchers.IO).launch {
-                viewModel.deleteByLinkFromDb(link)
-            }
+            viewModel.deleteByLinkFromDb(link)
             viewModel.getFavImages().observe(this) {
                 recyclerAdapter.setListOfImages(it)
             }

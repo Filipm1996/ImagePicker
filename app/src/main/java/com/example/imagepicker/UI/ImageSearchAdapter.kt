@@ -24,9 +24,6 @@ class ImageSearchAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.image_search_item, parent,false)
         newListOfPhotos = deleteRepeatedItems(listOfPhotos)
-        for(i in newListOfPhotos){
-            println(i)
-        }
         return ViewHolder(view)
     }
 

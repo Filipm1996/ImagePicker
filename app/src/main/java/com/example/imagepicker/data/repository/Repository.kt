@@ -14,6 +14,7 @@ class Repository(
 ) {
 
     private var db = Room.databaseBuilder(context, MyImageDatabase::class.java, "myImageDb").fallbackToDestructiveMigration().build()
+
     suspend fun getImageByName(name : String) : List<Hit>{
         val response = RetrofitInstance.api.getPhotoBySearchName(name).body()
         Log.e("Response", response?.get_hits().toString())

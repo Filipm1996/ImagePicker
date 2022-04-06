@@ -33,10 +33,8 @@ class ImageSearchActivity : AppCompatActivity() {
         binding.confirmButton.setOnClickListener {
             val searchedName = binding.editText.text.toString()
             if (searchedName.isNotEmpty()){
-            CoroutineScope(Dispatchers.Main).launch {
                 setUpRecyclerView(searchedName)
                 binding.editText.text?.clear()
-            }
             }else{
                 Toast.makeText(this,"Please write searched tag",Toast.LENGTH_LONG).show()
             }
@@ -48,11 +46,14 @@ class ImageSearchActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this,factory)[ViewModel::class.java]
     }
 
-    private suspend fun setUpRecyclerView(searchedName: String) {
-        val listOfImages = viewModel.getImageByName(searchedName)
-        binding.recyclerViewImagePick.layoutManager = LinearLayoutManager(actContext )
-        val recyclerAdapter = ImageSearchAdapter(actContext ,listOfImages)
-        binding.recyclerViewImagePick.adapter = recyclerAdapter
+    private fun setUpRecyclerView(searchedName: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+
+            val listOfImages = viewModel.getImageByName(searchedName)
+            binding.recyclerViewImagePick.layoutManager = LinearLayoutManager(actContext)
+            val recyclerAdapter = ImageSearchAdapter(actContext, listOfImages)
+            binding.recyclerViewImagePick.adapter = recyclerAdapter
+        }
     }
 }
 

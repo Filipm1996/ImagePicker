@@ -2,6 +2,10 @@ package com.example.imagepicker.UI
 
 import androidx.lifecycle.ViewModel
 import com.example.imagepicker.data.repository.Repository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 class ViewModel(
     private val repository: Repository
@@ -11,5 +15,5 @@ class ViewModel(
 
     fun getFavImages() = repository.getAllFavImages()
 
-    fun deleteByLinkFromDb (link: String) = repository.deleteByLinkFromDb(link)
+    fun deleteByLinkFromDb (link: String) = CoroutineScope(Dispatchers.IO).launch { repository.deleteByLinkFromDb(link)}
 }
