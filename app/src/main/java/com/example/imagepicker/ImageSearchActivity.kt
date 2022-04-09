@@ -14,6 +14,7 @@ import com.example.imagepicker.databinding.ImagePickActivityBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ImageSearchActivity : AppCompatActivity() {
     private lateinit var actContext  : Context
@@ -47,12 +48,15 @@ class ImageSearchActivity : AppCompatActivity() {
     }
 
     private fun setUpRecyclerView(searchedName: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-
-            val listOfImages = viewModel.getImageByName(searchedName)
-            binding.recyclerViewImagePick.layoutManager = LinearLayoutManager(actContext)
-            val recyclerAdapter = ImageSearchAdapter(actContext, listOfImages)
-            binding.recyclerViewImagePick.adapter = recyclerAdapter
+        CoroutineScope(Dispatchers.IO).launch {
+            val listOfImagesFromPixabay = viewModel.getImageByNameFromPixabay(searchedName)
+            val listOfImagesFromPexels = viewModel.getImageByNameFromPexels(searchedName)
+            val listOfImages = listOfImagesFromPexels + listOfImagesFromPixabay
+            withContext(Dispatchers.Main) {
+                binding.recyclerViewImagePick.layoutManager = LinearLayoutManager(actContext)
+                val recyclerAdapter = ImageSearchAdapter(actContext, listOfImages)
+                binding.recyclerViewImagePick.adapter = recyclerAdapter
+            }
         }
     }
 }

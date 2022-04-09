@@ -1,10 +1,10 @@
-package com.example.imagepicker.data.Retrofit
+package com.example.imagepicker.data.Retrofit.Pixabay
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-object RetrofitInstance {
+object RetrofitInstanceForPixabay {
 
     val api : ImageApi by lazy {
         Retrofit.Builder()

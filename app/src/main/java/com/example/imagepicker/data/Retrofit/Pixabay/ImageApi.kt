@@ -1,4 +1,4 @@
-package com.example.imagepicker.data.Retrofit
+package com.example.imagepicker.data.Retrofit.Pixabay
 
 import retrofit2.Response
 import retrofit2.http.GET

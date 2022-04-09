@@ -9,21 +9,19 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagepicker.R
-import com.example.imagepicker.data.Retrofit.Hit
 import com.example.imagepicker.data.repository.Repository
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-private lateinit var newListOfPhotos : List<String>
+
 class ImageSearchAdapter(
     private val actContext  : Context,
-    private val listOfPhotos : List<Hit>
+    private val listOfPhotos : List<String>
 ) : RecyclerView.Adapter<ImageSearchAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.image_search_item, parent,false)
-        newListOfPhotos = deleteRepeatedItems(listOfPhotos)
         return ViewHolder(view)
     }
 
@@ -33,16 +31,16 @@ class ImageSearchAdapter(
             doubledPosition = 0
         }
         doubledPosition = position*2
-        if(doubledPosition < newListOfPhotos.size-1) {
-            Picasso.get().load(newListOfPhotos[doubledPosition]).into(holder.photo1)
-            Picasso.get().load(newListOfPhotos[doubledPosition + 1]).into(holder.photo2)
+        if(doubledPosition < listOfPhotos.size-1) {
+            Picasso.get().load(listOfPhotos[doubledPosition]).into(holder.photo1)
+            Picasso.get().load(listOfPhotos[doubledPosition + 1]).into(holder.photo2)
 
 
             holder.photo1.setOnClickListener {
-                setDialog(newListOfPhotos[doubledPosition])
+                setDialog(listOfPhotos[doubledPosition])
             }
             holder.photo2.setOnClickListener {
-                setDialog(newListOfPhotos[doubledPosition + 1])
+                setDialog(listOfPhotos[doubledPosition + 1])
             }
         }
     }
@@ -78,14 +76,5 @@ class ImageSearchAdapter(
         return position
     }
 
-    private fun deleteRepeatedItems(listOfPhotos: List<Hit>) : List<String> {
-        val listOfNewPhotos = mutableListOf<String>()
-        for (i in listOfPhotos){
-            if (!listOfNewPhotos.contains(i.webformatURL)){
-                listOfNewPhotos.add(i.webformatURL)
-            }
-        }
-        return listOfNewPhotos
-    }
 
 }

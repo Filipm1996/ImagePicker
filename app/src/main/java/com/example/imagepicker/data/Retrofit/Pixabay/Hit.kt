@@ -1,4 +1,4 @@
-package com.example.imagepicker.data.Retrofit
+package com.example.imagepicker.data.Retrofit.Pixabay
 
 data class Hit(
     val collections: Int,
