@@ -60,7 +60,7 @@ class UsersImagesActivity : AppCompatActivity() {
     private fun setUpRecyclerView() {
         viewModel.getFavImages().observe(this) { it ->
             binding.recyclerViewUsersImages.layoutManager = LinearLayoutManager(actContext)
-            recyclerAdapter = UsersImagesAdapter(actContext, it)
+            recyclerAdapter = UsersImagesAdapter()
             binding.recyclerViewUsersImages.adapter = recyclerAdapter
             recyclerAdapter.setOnClickDeleteItem {
                 setDeleteDialog(it)

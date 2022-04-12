@@ -36,11 +36,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:name=".ImageSearchActivity"
             android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         <activity android:name=".UsersImagesActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"/>
     </application>
 

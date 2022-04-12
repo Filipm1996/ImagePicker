@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ImageSearchActivity : AppCompatActivity() {
+    private lateinit var recyclerAdapter: ImageSearchAdapter
     private lateinit var actContext  : Context
     private lateinit var binding : ImagePickActivityBinding
     private lateinit var factory : ViewModelFactory
@@ -54,9 +55,17 @@ class ImageSearchActivity : AppCompatActivity() {
             val listOfImages = listOfImagesFromPexels + listOfImagesFromPixabay
             withContext(Dispatchers.Main) {
                 binding.recyclerViewImagePick.layoutManager = LinearLayoutManager(actContext)
-                val recyclerAdapter = ImageSearchAdapter(actContext, listOfImages)
+                recyclerAdapter = ImageSearchAdapter()
+                recyclerAdapter.updateListOfPhotos(listOfImages)
+                setUpClickListener()
                 binding.recyclerViewImagePick.adapter = recyclerAdapter
             }
+        }
+    }
+
+    private fun setUpClickListener() {
+        recyclerAdapter.setOnAddPhotoClickListener {
+            viewModel.setAddPhotoDialog(it, actContext)
         }
     }
 }

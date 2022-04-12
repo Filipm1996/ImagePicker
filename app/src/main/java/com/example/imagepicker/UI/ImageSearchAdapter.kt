@@ -16,10 +16,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class ImageSearchAdapter(
-    private val actContext  : Context,
-    private val listOfPhotos : List<String>
-) : RecyclerView.Adapter<ImageSearchAdapter.ViewHolder>() {
+class ImageSearchAdapter: RecyclerView.Adapter<ImageSearchAdapter.ViewHolder>() {
+    private var listOfPhotos : List<String>? = null
+    private var addPhotoClicked : ((String)->Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.image_search_item, parent,false)
         return ViewHolder(view)
@@ -31,40 +30,29 @@ class ImageSearchAdapter(
             doubledPosition = 0
         }
         doubledPosition = position*2
-        if(doubledPosition < listOfPhotos.size-1) {
-            Picasso.get().load(listOfPhotos[doubledPosition]).into(holder.photo1)
-            Picasso.get().load(listOfPhotos[doubledPosition + 1]).into(holder.photo2)
+        if(doubledPosition < listOfPhotos!!.size-1) {
+            Picasso.get().load(listOfPhotos!![doubledPosition]).into(holder.photo1)
+            Picasso.get().load(listOfPhotos!![doubledPosition + 1]).into(holder.photo2)
 
 
             holder.photo1.setOnClickListener {
-                setDialog(listOfPhotos[doubledPosition])
+                addPhotoClicked?.invoke(listOfPhotos!![doubledPosition])
             }
             holder.photo2.setOnClickListener {
-                setDialog(listOfPhotos[doubledPosition + 1])
+                addPhotoClicked?.invoke(listOfPhotos!![doubledPosition + 1])
             }
         }
     }
+    fun setOnAddPhotoClickListener(callback : (String)->Unit){
+        this.addPhotoClicked = callback
+    }
 
-    private fun setDialog(link : String) {
-        val repository = Repository(actContext )
-        val builder =AlertDialog.Builder(actContext )
-        builder.setMessage("Do you want to add photo?")
-        builder.setCancelable(true)
-        builder.setPositiveButton("yes"){dialog,_ ->
-            CoroutineScope(Dispatchers.IO).launch {
-                repository.insertLinkToDb(link)
-            }
-            Toast.makeText(actContext ,"Added photo", Toast.LENGTH_LONG).show()
-        }
-        builder.setNegativeButton("No"){dialog,_->
-            dialog.dismiss()
-        }
-        val alert = builder.create()
-        alert.show()
+    fun updateListOfPhotos(list : List<String>){
+        this.listOfPhotos = list
     }
 
     override fun getItemCount(): Int {
-        return listOfPhotos.size
+        return listOfPhotos!!.size
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

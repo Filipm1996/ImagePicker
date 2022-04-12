@@ -13,10 +13,8 @@ import com.example.imagepicker.data.RoomDatabase.ImageDB
 import com.squareup.picasso.Picasso
 
 
-class UsersImagesAdapter(
-    private val actContext : Context,
-    private var listOfPhotos : List<ImageDB>
-) : RecyclerView.Adapter<UsersImagesAdapter.ViewHolder> () {
+class UsersImagesAdapter: RecyclerView.Adapter<UsersImagesAdapter.ViewHolder> () {
+    private var listOfPhotos : List<ImageDB>? = null
     var onClickDeleteItem :((link:String)->Unit)? = null
     var onClickDownloadItem : ((link:String) -> Unit)? = null
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view){
@@ -31,13 +29,13 @@ class UsersImagesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Picasso.get().load(listOfPhotos[position].imageLink).into(holder.photo)
+        Picasso.get().load(listOfPhotos!![position].imageLink).into(holder.photo)
         holder.deleteButton.setOnClickListener {
-            onClickDeleteItem?.invoke(listOfPhotos[position].imageLink)
+            onClickDeleteItem?.invoke(listOfPhotos!![position].imageLink)
         }
 
         holder.downloadButton.setOnClickListener {
-            onClickDownloadItem?.invoke(listOfPhotos[position].imageLink)
+            onClickDownloadItem?.invoke(listOfPhotos!![position].imageLink)
         }
 
     }
@@ -54,12 +52,11 @@ class UsersImagesAdapter(
     }
 
     override fun getItemCount(): Int {
-        return listOfPhotos.size
+        return listOfPhotos!!.size
     }
 
-    fun setOnDownloadItem (callback:(link:String) -> Unit){
+    fun setOnDownloadItem (callback:(link:String) -> Unit) {
         this.onClickDownloadItem = callback
     }
-
 
 }
