@@ -1,0 +1,2 @@
+# ImagePicker
+ImagePicker is connected with Pixabay API and Pexels API. User can search by tag for photo, add it to his db and download it to external storage. There is camera activity where user can take his photo and save it to external storage. Used tools : Retrofit, Room, Coroutines, Picasso, MVVM architecture. I am planning in close future to add option for choosing size of photo which user want to download.
