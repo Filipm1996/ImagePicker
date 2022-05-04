@@ -17,15 +17,27 @@ class Repository(
     private var db = Room.databaseBuilder(context, MyImageDatabase::class.java, "myImageDb").fallbackToDestructiveMigration().build()
 
     suspend fun getImageByNameFromPixabay(name : String) : List<Hit>{
+        var listOfHits = listOf<Hit>()
+        try{
         val response = RetrofitInstanceForPixabay.api.getPhotoBySearchName(name).body()
         Log.e("Response from Pixabay", response?.get_hits().toString())
-        return response!!.get_hits()
+        listOfHits= response!!.get_hits()
+    }catch(exception: Exception){
+            Log.i("Error", exception.message.toString())
+        }
+        return listOfHits
     }
 
     suspend fun getImageByNameFromPexels(name: String) : List<String> {
-        val response = RetrofitInstanceForPexels.api.getListOfPhotosFromPexelsApi(name).body()
-        Log.e("Response from Pexels", response?.photos.toString())
-        return response!!.getListOfPhotos()
+        var listOfStrings = listOf<String>()
+        try {
+            val response = RetrofitInstanceForPexels.api.getListOfPhotosFromPexelsApi(name).body()
+            Log.e("Response from Pexels", response?.photos.toString())
+            listOfStrings = response!!.getListOfPhotos()
+        }catch (exception : java.lang.Exception){
+            Log.i("Error", exception.message.toString())
+        }
+       return listOfStrings
     }
 
     suspend fun insertLinkToDb (link:String) = db.myImageDao().insertNewImageId(ImageDB(link))
