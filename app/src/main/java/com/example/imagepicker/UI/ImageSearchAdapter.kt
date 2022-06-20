@@ -52,7 +52,7 @@ class ImageSearchAdapter: RecyclerView.Adapter<ImageSearchAdapter.ViewHolder>() 
     }
 
     override fun getItemCount(): Int {
-        return listOfPhotos!!.size
+        return listOfPhotos?.size?.div(2) ?: 0
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -1,7 +1,6 @@
 package com.example.imagepicker.UI
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +51,7 @@ class UsersImagesAdapter: RecyclerView.Adapter<UsersImagesAdapter.ViewHolder> ()
     }
 
     override fun getItemCount(): Int {
-        return listOfPhotos!!.size
+        return listOfPhotos?.size ?: 0
     }
 
     fun setOnDownloadItem (callback:(link:String) -> Unit) {
