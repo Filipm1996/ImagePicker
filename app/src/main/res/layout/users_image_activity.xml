@@ -5,28 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundColor"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/linearLayout"
+        android:gravity="center">
 <TextView
     android:id="@+id/textView"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    android:textColor="#6B696E"
-    android:fontFamily="sans-serif-black"
+    android:textColor="@color/white"
+    android:fontFamily="@font/summer_vibes"
     android:textSize="40sp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="My Images"/>
+</LinearLayout>
 
-    <View
-        android:id="@+id/greyLine"
-        android:layout_marginTop="5dp"
-        android:background="#676666"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recyclerViewUsersImages"
-    app:layout_constraintTop_toTopOf="@id/greyLine"
+    app:layout_constraintTop_toBottomOf="@id/linearLayout"
     app:layout_constraintBottom_toBottomOf="parent"
     android:layout_width="match_parent"
     android:layout_height="0dp"/>

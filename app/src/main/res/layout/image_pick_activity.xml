@@ -13,6 +13,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
+        android:paddingBottom="10dp"
+        android:background="@color/backgroundColor"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -20,7 +22,6 @@
             android:id="@+id/textInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
             android:layout_weight=".70"
             android:backgroundTint="#6B696E"
             android:orientation="horizontal"
@@ -30,13 +31,12 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
-                android:layout_height="49dp"
+                android:layout_height="60dp"
                 android:background="#B5B5B5"
                 android:drawableStart="@drawable/ic_baseline_search_24"
                 android:drawablePadding="5dp"
                 android:hint="@string/search_for_image"
                 android:textColor="@color/white"
-                android:paddingTop="10dp"
                 android:textColorHighlight="#6B696E"
                 android:textColorLink="#6B696E"
                 android:textCursorDrawable="@null" />
@@ -47,6 +47,7 @@
             android:id="@+id/confirm_button"
             android:layout_width="0dp"
             android:layout_height="60dp"
+            android:background="@drawable/button_shape"
             android:layout_weight=".30"
             android:text="Confirm" />
 

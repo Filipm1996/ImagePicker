@@ -1,7 +1,10 @@
 package com.example.imagepicker
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class ImageSearchActivity : AppCompatActivity() {
     private lateinit var recyclerAdapter: ImageSearchAdapter
@@ -37,6 +41,7 @@ class ImageSearchActivity : AppCompatActivity() {
             if (searchedName.isNotEmpty()){
                 setUpRecyclerView(searchedName)
                 binding.editText.text?.clear()
+                hideKeyboard(this)
             }else{
                 Toast.makeText(this,"Please write searched tag",Toast.LENGTH_LONG).show()
             }
@@ -67,6 +72,16 @@ class ImageSearchActivity : AppCompatActivity() {
         recyclerAdapter.setOnAddPhotoClickListener {
             viewModel.setAddPhotoDialog(it, actContext)
         }
+    }
+
+    private fun hideKeyboard(activity: Activity) {
+        val imm: InputMethodManager =
+            activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        var view: View? = activity.currentFocus
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
     }
 }
 
