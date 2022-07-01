@@ -1,6 +1,7 @@
 package com.example.imagepicker
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -89,7 +90,7 @@ class ImageSearchActivity : AppCompatActivity() {
 
     private fun setUpClickListener() {
         recyclerAdapter.setOnAddPhotoClickListener {
-            viewModel.setAddPhotoDialog(it, actContext)
+            setAddPhotoDialog(it)
         }
     }
 
@@ -101,6 +102,21 @@ class ImageSearchActivity : AppCompatActivity() {
             view = View(activity)
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+    }
+
+    private fun setAddPhotoDialog (link : String ) {
+        val builder = AlertDialog.Builder(actContext )
+        builder.setMessage("Do you want to add photo?")
+        builder.setCancelable(true)
+        builder.setPositiveButton("yes"){dialog,_ ->
+            viewModel. insertLinkToDb(link)
+            Toast.makeText(actContext ,"Added photo", Toast.LENGTH_LONG).show()
+        }
+        builder.setNegativeButton("No"){dialog,_->
+            dialog.dismiss()
+        }
+        val alert = builder.create()
+        alert.show()
     }
 }
 

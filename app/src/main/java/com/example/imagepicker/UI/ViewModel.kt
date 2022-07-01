@@ -97,24 +97,8 @@ class ViewModel(
     fun clearErrorCollector (){
         errorCollector.postValue(null)
     }
-    fun setAddPhotoDialog (link : String , actContext : Context) {
-        val builder = AlertDialog.Builder(actContext )
-        builder.setMessage("Do you want to add photo?")
-        builder.setCancelable(true)
-        builder.setPositiveButton("yes"){dialog,_ ->
-            CoroutineScope(Dispatchers.IO).launch {
-                repository.insertLinkToDb(link)
-            }
-            Toast.makeText(actContext ,"Added photo", Toast.LENGTH_LONG).show()
-        }
-        builder.setNegativeButton("No"){dialog,_->
-            dialog.dismiss()
-        }
-        val alert = builder.create()
-        alert.show()
+
+    fun insertLinkToDb (link : String) = viewModelScope.launch {
+        repository.insertLinkToDb(link)
     }
-
-
-
-
 }
