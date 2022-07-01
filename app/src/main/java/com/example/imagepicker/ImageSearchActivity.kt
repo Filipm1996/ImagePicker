@@ -31,8 +31,29 @@ class ImageSearchActivity : AppCompatActivity() {
         actContext  = this
         binding = ImagePickActivityBinding.inflate(layoutInflater)
         setUpViewModel()
+        setUpErrorObserver()
+        setUpLoadingObserver()
         getSearchedName()
         setContentView(binding.root)
+    }
+
+    private fun setUpLoadingObserver() {
+        viewModel.getLoadingLiveData().observe(this){loading ->
+            if(loading == true){
+                binding.progressBar.visibility = View.VISIBLE
+            } else{
+                binding.progressBar.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    private fun setUpErrorObserver() {
+        viewModel.getErrors().observe(this){error ->
+            if(!error.isNullOrEmpty()){
+                Toast.makeText(this,error,Toast.LENGTH_SHORT).show()
+                viewModel.clearErrorCollector()
+            }
+        }
     }
 
     private fun getSearchedName(){
@@ -54,11 +75,9 @@ class ImageSearchActivity : AppCompatActivity() {
     }
 
     private fun setUpRecyclerView(searchedName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val listOfImagesFromPixabay = viewModel.getImageByNameFromPixabay(searchedName)
-            val listOfImagesFromPexels = viewModel.getImageByNameFromPexels(searchedName)
-            val listOfImages = listOfImagesFromPexels + listOfImagesFromPixabay
-            withContext(Dispatchers.Main) {
+            viewModel.getImageByNameFromPixabay(searchedName)
+            viewModel.getImageByNameFromPexels(searchedName)
+            viewModel.getLinks().observe(this) {listOfImages->
                 binding.recyclerViewImagePick.layoutManager = LinearLayoutManager(actContext)
                 recyclerAdapter = ImageSearchAdapter()
                 recyclerAdapter.updateListOfPhotos(listOfImages)
@@ -66,7 +85,7 @@ class ImageSearchActivity : AppCompatActivity() {
                 binding.recyclerViewImagePick.adapter = recyclerAdapter
             }
         }
-    }
+
 
     private fun setUpClickListener() {
         recyclerAdapter.setOnAddPhotoClickListener {
